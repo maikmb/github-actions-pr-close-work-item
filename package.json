@@ -1,8 +1,8 @@
 {
-  "name": "github-pullrequest-to-work-item",
+  "name": "github-actions-pr-close-work-item",
   "version": "1.0.0",
   "private": true,
-  "description": "Create a work item on an Azure Board when a GitHub Pull Request is created",
+  "description": "Close a work item on an Azure Board when a GitHub Pull Request is closed",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danhellem/github-actions-issue-to-work-item.git"
+    "url": "git+https://github.com/maikmb/github-actions-pr-close-work-item.git"
   },
   "keywords": [
     "actions",
     "node",
     "setup"
   ],
-  "author": "DanHellem",
+  "author": "maikmb",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6",

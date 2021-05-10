@@ -37,7 +37,7 @@ export async function fetch(
 
     //build wiql
     const wiql = {
-      query: `SELECT [System.Id], [System.WorkItemType], [System.Description], [System.Title], [System.AssignedTo], [System.State], [System.Tags] FROM workitems WHERE [System.TeamProject] = @project AND [System.Title] CONTAINS '(GitHub PR #${payload.number})' AND [System.Tags] CONTAINS 'GitHub PR' AND [System.Tags] CONTAINS '${payload.repo_name}'`
+      query: `SELECT [System.Id], [System.WorkItemType], [System.Description], [System.Title], [System.AssignedTo], [System.State], [System.Tags] FROM workitems WHERE [System.Id] = '${payload.getAzureWorkItemId()}'`
     }
 
     response.code = 500

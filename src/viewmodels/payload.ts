@@ -24,4 +24,10 @@ export default class Payload {
   repo_owner: string
   body: string
   sender_login: string
+
+  getAzureWorkItemId() {
+    if(this.title.toUpperCase().indexOf("AB#") === -1) throw Error("Azure work item not found. Add AB#{work_item_code} to pull request title")
+    const workItemId = this.title.replace(/[^0-9]/g,'');
+    return workItemId;
+  }
 }

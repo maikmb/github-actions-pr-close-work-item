@@ -1,5 +1,5 @@
-name: 'Sync Pull Requests to Azure Boards'
-description: 'Create a work item in Azure DevOps when a Pull Request is created'
+name: 'Sync Pull Request to Close Work Item'
+description: 'Close a work item in Azure DevOps when a Pull Request is closed'
 author: 'danhellem'
 branding:
   icon: "git-pull-request"
@@ -16,13 +16,7 @@ inputs:
     default: ''
   ado_wit: 
     description: 'Work Item Type (usually a custom work item type)'
-    default: 'Pull Request' 
-  ado_close_state: 
-    description: 'Closed State'
-    default: 'Closed' 
-  ado_active_state: 
-    description: 'In Progress state that the PR will get set too after it is created'
-    default: 'Active'
+    default: 'Pull Request'   
 outputs:
   id:
     description: "id of work item created"

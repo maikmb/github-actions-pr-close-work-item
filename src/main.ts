@@ -11,7 +11,7 @@ import { update as updatePr } from './github-pr'
 import { IResponse } from './interfaces/base-response'
 import * as patch from './patch-documents'
 
-const debug = false
+const debug = core.getInput('is_debug', {required: false}) || false
 const ado_org = ''
 const ado_project = ''
 const ado_token = ''

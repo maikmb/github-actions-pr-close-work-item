@@ -5,6 +5,9 @@ branding:
   icon: "git-pull-request"
   color: "blue"
 inputs:
+  is_debug:
+    description: 'Enables debug workflow'
+    default: false
   ado_token: 
     description: 'Azure DevOps Personal Access Token'
     default: ''

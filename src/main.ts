@@ -61,6 +61,10 @@ async function run(): Promise<void> {
     const payload: Payload = getWebHookPayLoad()
     if (debug) console.log(payload)
 
+    console.log(
+      `Sync pull request to work item: ${payload.getAzureWorkItemId()}`
+    )
+
     if (payload.sender_login === 'azure-boards[bot]') {
       console.log(`azure-boards[bot] sender, exiting action`)
       return

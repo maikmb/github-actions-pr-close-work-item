@@ -60,11 +60,13 @@ async function run(): Promise<void> {
 
     // set the env params
     const envInputs: EnvInputs = getEnvInputs()
-    if (debug) console.log(envInputs)
+    // if (debug) console.log(envInputs)
+    console.log({envInputs})
 
     // get payload info
     const payload: Payload = getWebHookPayLoad()
-    if (debug) console.log(payload)
+    // if (debug) console.log(payload)
+    console.log({payload})
 
     if (payload.sender_login === 'azure-boards[bot]') {
       console.log(`azure-boards[bot] sender, exiting action`)
@@ -73,7 +75,8 @@ async function run(): Promise<void> {
 
     // go and see if the ado work item already exists for this PR
     const fetchResult = await fetch(envInputs, payload)
-    if (debug) console.log(fetchResult)
+    // if (debug) console.log(fetchResult)
+    console.log({fetchResult})
 
     const response: IResponse = {
       code: 500,
@@ -112,7 +115,8 @@ async function run(): Promise<void> {
               )
             : response
 
-        if (debug) console.log(pr)
+        // if (debug) console.log(pr)
+        console.log({pr})
 
         if (!pr.success) console.log(`Warning: ${pr.message}`)
       } else {

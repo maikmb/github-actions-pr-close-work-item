@@ -1,7 +1,7 @@
 import {WebhookPayload} from '@actions/github/lib/interfaces'
 
 const sampleWebHookPayload: WebhookPayload = {
-  action: 'opened',
+  action: 'closed',
   number: 6,
   pull_request: {
     url: 'https://api.github.com/repos/danhellem/Lorem-ipsum/pulls/6',
@@ -14,7 +14,7 @@ const sampleWebHookPayload: WebhookPayload = {
     number: 6,
     state: 'open',
     locked: false,
-    title: 'Update README.md',
+    title: 'AB#20571 - Update README.md',
     user: {
       login: 'danhellem',
       id: 10525048,

@@ -6,16 +6,14 @@ import {WorkItem} from 'azure-devops-node-api/interfaces/WorkItemTrackingInterfa
 import EnvInputs from './viewmodels/env-inputs'
 import Payload from './viewmodels/payload'
 import sampleWebHookPayload from './debug/sample.webhookpayload'
-import {fetch, create, update} from './workitems'
-import {update as updatePr} from './github-pr'
-import {IResponse} from './interfaces/base-response'
+import {fetch, update} from './workitems'
 import * as patch from './patch-documents'
 
-const debug = true
+const debug = false
 const ado_org = ''
 const ado_project = ''
 const ado_token = ''
-const ado_wit = 'Pull Request'
+const ado_wit = 'Task'
 const github_token = ''
 
 // prettier-ignore
@@ -55,9 +53,6 @@ function getWebHookPayLoad(): Payload {
 
 async function run(): Promise<void> {
   try {
-    let workItem: WorkItem | null
-    let workItemId: number
-
     // set the env params
     const envInputs: EnvInputs = getEnvInputs()
     if (debug) console.log(envInputs)
@@ -75,12 +70,6 @@ async function run(): Promise<void> {
     const fetchResult = await fetch(envInputs, payload)
     if (debug) console.log(fetchResult)
 
-    const response: IResponse = {
-      code: 500,
-      message: 'failed',
-      success: false
-    }
-
     // check to make sure your fetch was a success
     // success = return an work item or return a zero result
     if (!fetchResult.success) {
@@ -90,43 +79,16 @@ async function run(): Promise<void> {
       return
     }
 
-    // if a work item is not found then lets go create one
+    // if a work item is not found then return
     if (fetchResult.code === 404) {
-      // create work item
-      const createResult = await create(envInputs, payload)
-
-      if (debug) console.log(createResult)
-
-      // if we successfully created the work item, then go and
-      // link the PR in GitHub to the PR work item in ADO
-      if (createResult.success) {
-        workItem = createResult.workItem
-        workItemId = workItem?.id !== undefined ? workItem?.id : -1
-
-        const pr: IResponse =
-          envInputs.github_token !== ''
-            ? await updatePr(
-                payload,
-                envInputs.github_token,
-                workItem?.id !== undefined ? workItem.id : -1
-              )
-            : response
-
-        if (debug) console.log(pr)
-
-        if (!pr.success) console.log(`Warning: ${pr.message}`)
-      } else {
-        core.setFailed(
-          `Error creating work item in Azure DevOps: ${createResult.message}`
-        )
-        return
-      }
-    } else {
-      workItem = fetchResult.workItem
-      workItemId = workItem?.id !== undefined ? workItem?.id : -1
-
-      console.log(`Existing work item found: ${workItem?.id}`)
+      core.setFailed(`Work item object is still null. Exiting run`)
+      return
     }
+
+    const workItem: WorkItem | null = fetchResult.workItem
+    const workItemId: number = workItem?.id !== undefined ? workItem?.id : -1
+
+    console.log(`Existing work item found: ${workItem?.id}`)
 
     // for some reason workItem is still null
     // should never happen
@@ -153,7 +115,7 @@ async function run(): Promise<void> {
       }
     }
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(`Internal Error: ${error.message}`)
   }
 }
 

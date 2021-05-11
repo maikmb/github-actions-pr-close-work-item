@@ -26,7 +26,7 @@ export default class Payload {
   sender_login: string
 
   getAzureWorkItemId(): string {
-    if (this.title.toUpperCase().includes('AB#'))
+    if (!this.title.toUpperCase().includes('AB#'))
       throw Error(
         'Azure work item not found. Add AB#{work_item_code} to pull request title'
       )

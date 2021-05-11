@@ -35,6 +35,8 @@ export async function fetch(
 
     const teamContext = {project: env.ado_project}
 
+    console.log(`Finding for work item: ${payload.getAzureWorkItemId()}`)
+
     //build wiql
     const wiql = {
       query: `SELECT [System.Id], [System.WorkItemType], [System.Description], [System.Title], [System.AssignedTo], [System.State], [System.Tags] FROM workitems WHERE [System.Id] = '${payload.getAzureWorkItemId()}'`

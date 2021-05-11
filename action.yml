@@ -3,23 +3,27 @@ description: 'Close a work item in Azure DevOps when a Pull Request is closed'
 author: 'danhellem'
 branding:
   icon: "git-pull-request"
-  color: "blue"
+  color: "green"
 inputs:
   is_debug:
     description: 'Enables debug workflow'
-    default: false
+    required: false
   ado_token: 
     description: 'Azure DevOps Personal Access Token'
     default: ''
+    required: true
   ado_organization:
     description: 'Organization Name'
     default: ''
+    required: true
   ado_project: 
     description: 'Project Name'
     default: ''
+    required: true
   ado_wit: 
     description: 'Work Item Type (usually a custom work item type)'
     default: 'Pull Request'   
+    required: true
 outputs:
   id:
     description: "id of work item created"

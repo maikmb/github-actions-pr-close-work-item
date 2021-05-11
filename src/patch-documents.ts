@@ -5,29 +5,6 @@ import EnvInputs from './viewmodels/env-inputs'
 import Payload from './viewmodels/payload'
 import {IResponse} from './interfaces/base-response'
 
-export function openedPatchDocument(env: EnvInputs): IPatchDocumentResponse {
-  const response: IPatchDocumentResponse = {
-    code: 200,
-    message: 'Success',
-    success: true,
-    patchDocument: undefined
-  }
-
-  let patchDocument: JsonPatchDocument = []
-
-  patchDocument = [
-    {
-      op: 'add',
-      path: '/fields/System.State',
-      value: env.ado_active_state
-    }
-  ]
-
-  response.patchDocument = patchDocument
-
-  return response
-}
-
 export function editedPatchDocument(
   env: EnvInputs,
   payload: Payload,
@@ -88,7 +65,7 @@ export function editedPatchDocument(
   return response
 }
 
-export function closedPatchDocument(env: EnvInputs): IPatchDocumentResponse {
+export function closedPatchDocument(): IPatchDocumentResponse {
   const response: IPatchDocumentResponse = {
     code: 500,
     message: 'failed',
@@ -102,7 +79,7 @@ export function closedPatchDocument(env: EnvInputs): IPatchDocumentResponse {
     {
       op: 'add',
       path: '/fields/System.State',
-      value: env.ado_close_state
+      value: 'Done'
     }
   ]
 

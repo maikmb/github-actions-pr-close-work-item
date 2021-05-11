@@ -1,14 +1,14 @@
 import * as core from '@actions/core'
-import { context } from '@actions/github'
-import { WebhookPayload } from '@actions/github/lib/interfaces'
-import { WorkItem } from 'azure-devops-node-api/interfaces/WorkItemTrackingInterfaces'
+import {context} from '@actions/github'
+import {WebhookPayload} from '@actions/github/lib/interfaces'
+import {WorkItem} from 'azure-devops-node-api/interfaces/WorkItemTrackingInterfaces'
 
 import EnvInputs from './viewmodels/env-inputs'
 import Payload from './viewmodels/payload'
 import sampleWebHookPayload from './debug/sample.webhookpayload'
-import { fetch, create, update } from './workitems'
-import { update as updatePr } from './github-pr'
-import { IResponse } from './interfaces/base-response'
+import {fetch, create, update} from './workitems'
+import {update as updatePr} from './github-pr'
+import {IResponse} from './interfaces/base-response'
 import * as patch from './patch-documents'
 
 const debug = core.getInput('is_debug', {required: false}) || false
@@ -106,10 +106,10 @@ async function run(): Promise<void> {
         const pr: IResponse =
           envInputs.github_token !== ''
             ? await updatePr(
-              payload,
-              envInputs.github_token,
-              workItem?.id !== undefined ? workItem.id : -1
-            )
+                payload,
+                envInputs.github_token,
+                workItem?.id !== undefined ? workItem.id : -1
+              )
             : response
 
         if (debug) console.log(pr)
@@ -136,9 +136,7 @@ async function run(): Promise<void> {
     }
 
     if (payload.action === 'closed') {
-      const patchDocumentResponse: patch.IPatchDocumentResponse = patch.closedPatchDocument(
-        envInputs
-      )
+      const patchDocumentResponse: patch.IPatchDocumentResponse = patch.closedPatchDocument()
 
       // if success and patch document is not empty, then go update the work item
       if (
@@ -154,8 +152,6 @@ async function run(): Promise<void> {
         if (debug) console.log(closedResult)
       }
     }
-
-
   } catch (error) {
     core.setFailed(error.message)
   }

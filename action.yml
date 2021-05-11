@@ -14,7 +14,7 @@ inputs:
     required: true
   ado_organization:
     description: 'Organization Name'
-    default: ''
+    default: 'healers'
     required: true
   ado_project: 
     description: 'Project Name'

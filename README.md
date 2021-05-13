@@ -1,4 +1,4 @@
-# Manage work item stage with pull request
+# Manage work item state with pull request
 
 Manage work item state when a pull request is closed or opened.
 

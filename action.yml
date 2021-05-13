@@ -1,4 +1,4 @@
-name: "Manage work item stage with pull request"
+name: "Manage work item state with pull request"
 description: "Moves a work item state when a pull request is closed or opened"
 author: "maikmb"
 branding:

@@ -18,9 +18,10 @@ True for success update
    - Set Azure DevOps organization and project details.
    - Set specific work item type settings (work item type, new state, active state, closed state)
    - Set state that work item must be set:
-    > `ado_on_close_state`: State name that the PR will get set too after it is closed
     
-    > `ado_on_active_state`: State name that the PR will get set too after it is created
+    `ado_on_close_state`: State name that the PR will get set too after it is closed
+
+    `ado_on_active_state`: State name that the PR will get set too after it is created
 
    Optional Env Variables
 

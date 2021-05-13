@@ -25,7 +25,7 @@ inputs:
     description: "In Progress state that the PR will get set too after it is closed"
     default: "Done"
     required: false
-  ado_on_active_state:
+  ado_on_open_state:
     description: "In Progress state that the PR will get set too after it is created"
     default: "Code Review"
     required: false

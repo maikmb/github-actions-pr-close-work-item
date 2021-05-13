@@ -21,7 +21,7 @@ True for success update
     
     `ado_on_close_state`: State name that the PR will get set too after it is closed
 
-    `ado_on_active_state`: State name that the PR will get set too after it is created
+    `ado_on_open_state`: State name that the PR will get set too after it is created
 
    Optional Env Variables
 
@@ -48,5 +48,5 @@ jobs:
         ado_project: 'Agile'
         ado_wit: 'Task'
         ado_on_close_state: 'Done'
-        ado_on_active_state: 'Code Review'         
+        ado_on_open_state: 'Code Review'         
 ```

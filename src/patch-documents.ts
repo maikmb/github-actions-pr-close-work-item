@@ -65,7 +65,30 @@ export function editedPatchDocument(
   return response
 }
 
-export function closedPatchDocument(): IPatchDocumentResponse {
+export function openedPatchDocument(env: EnvInputs): IPatchDocumentResponse {
+  const response: IPatchDocumentResponse = {
+    code: 200,
+    message: 'Success',
+    success: true,
+    patchDocument: undefined
+  }
+
+  let patchDocument: JsonPatchDocument = []
+
+  patchDocument = [
+    {
+      op: 'add',
+      path: '/fields/System.State',
+      value: env.ado_on_open_state
+    }
+  ]
+
+  response.patchDocument = patchDocument
+
+  return response
+}
+
+export function closedPatchDocument(env: EnvInputs): IPatchDocumentResponse {
   const response: IPatchDocumentResponse = {
     code: 500,
     message: 'failed',
@@ -79,7 +102,7 @@ export function closedPatchDocument(): IPatchDocumentResponse {
     {
       op: 'add',
       path: '/fields/System.State',
-      value: 'Done'
+      value: env.ado_on_close_state
     }
   ]
 

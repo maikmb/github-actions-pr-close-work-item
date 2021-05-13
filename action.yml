@@ -1,31 +1,37 @@
-name: 'Sync Pull Request to Close Work Item'
-description: 'Close a work item in Azure DevOps when a Pull Request is closed'
-author: 'danhellem'
+name: "Manage work item stage with pull request"
+description: "Moves a work item state when a pull request is closed or opened"
+author: "maikmb"
 branding:
   icon: "git-pull-request"
   color: "green"
-inputs:  
-  ado_token: 
-    description: 'Azure DevOps Personal Access Token'
-    default: ''
+inputs:
+  ado_token:
+    description: "Azure DevOps Personal Access Token"
+    default: ""
     required: true
   ado_organization:
-    description: 'Organization Name'
-    default: 'healers'
+    description: "Organization Name"
+    default: "healers"
     required: true
-  ado_project: 
-    description: 'Project Name'
-    default: ''
+  ado_project:
+    description: "Project Name"
+    default: ""
     required: true
-  ado_wit: 
-    description: 'Work Item Type (usually a custom work item type)'
-    default: 'Pull Request'   
+  ado_wit:
+    description: "Work Item Type (usually a custom work item type)"
+    default: "Pull Request"
     required: true
+  ado_on_close_state:
+    description: "In Progress state that the PR will get set too after it is closed"
+    default: "Done"
+    required: false
+  ado_on_active_state:
+    description: "In Progress state that the PR will get set too after it is created"
+    default: "Code Review"
+    required: false
 outputs:
-  id:
-    description: "id of work item created"
+  success:
+    description: "indicates whether update work item is success"
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
-
-  
+  using: "node12"
+  main: "dist/index.js"

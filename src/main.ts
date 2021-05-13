@@ -25,6 +25,8 @@ function getEnvInputs(): EnvInputs {
   vm.ado_project = process.env['ado_project'] !== undefined ? process.env['ado_project'] : ado_project
   vm.ado_wit = process.env['ado_wit'] !== undefined ? process.env['ado_wit'] : ado_wit
   vm.github_token = process.env['github_token'] !== undefined ? process.env['github_token'] : github_token
+  vm.ado_on_close_state = process.env['ado_close_state'] !== undefined ? process.env['ado_close_state'] : 'Closed'
+  vm.ado_on_open_state = process.env['ado_active_state'] !== undefined ? process.env['ado_active_state'] : 'Active'
 
   return vm
 }
@@ -60,6 +62,11 @@ async function run(): Promise<void> {
     // get payload info
     const payload: Payload = getWebHookPayLoad()
     if (debug) console.log(payload)
+
+    if (!payload.hasIntegrationTag()) {
+      console.warn(`action without work item integration`)
+      return
+    }
 
     console.log(
       `Sync pull request to work item: ${payload.getAzureWorkItemId()}`
@@ -101,21 +108,48 @@ async function run(): Promise<void> {
       return
     }
 
-    if (payload.action === 'closed') {
-      const patchDocumentResponse: patch.IPatchDocumentResponse = patch.closedPatchDocument()
-
-      // if success and patch document is not empty, then go update the work item
-      if (
-        patchDocumentResponse.success &&
-        patchDocumentResponse !== undefined
-      ) {
-        const closedResult = await update(
-          envInputs,
-          workItemId,
-          patchDocumentResponse.patchDocument
+    switch (payload.action) {
+      case 'opened': {
+        const patchDocumentResponse: patch.IPatchDocumentResponse = patch.openedPatchDocument(
+          envInputs
         )
 
-        if (debug) console.log(closedResult)
+        // go update the work item to change the state
+        // this gets the PR out of the new column and into something more actionable
+        if (
+          patchDocumentResponse.success &&
+          patchDocumentResponse !== undefined
+        ) {
+          const openedResult = await update(
+            envInputs,
+            workItemId,
+            patchDocumentResponse.patchDocument
+          )
+
+          if (debug) console.log(openedResult)
+        }
+
+        break
+      }
+
+      case 'closed': {
+        const patchDocumentResponse: patch.IPatchDocumentResponse = patch.closedPatchDocument(
+          envInputs
+        )
+
+        // if success and patch document is not empty, then go update the work item
+        if (
+          patchDocumentResponse.success &&
+          patchDocumentResponse !== undefined
+        ) {
+          const closedResult = await update(
+            envInputs,
+            workItemId,
+            patchDocumentResponse.patchDocument
+          )
+
+          if (debug) console.log(closedResult)
+        }
       }
     }
   } catch (error) {

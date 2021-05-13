@@ -1,6 +1,6 @@
 # Pull Requests Azure Boards close work items
 
-Close a work item in Azure Board when a pull request is closed on github
+Manage work item state when a pull request is closed or opened.
 
 ## Outputs
 True for success update
@@ -13,10 +13,14 @@ True for success update
 
 3. Install the [Azure Boards App](https://github.com/marketplace/azure-boards) from the GitHub Marketplace
 
-4. Add a workflow file which responds to pull request events of `opened, edited, closed`
+4. Add a workflow file which responds to pull request events of `opened, closed`
 
    - Set Azure DevOps organization and project details.
    - Set specific work item type settings (work item type, new state, active state, closed state)
+   - Set state that work item must be set:
+    > `ado_on_close_state`: State name that the PR will get set too after it is closed
+    
+    > `ado_on_active_state`: State name that the PR will get set too after it is created
 
    Optional Env Variables
 
@@ -27,7 +31,7 @@ name: Pull Request close work item
 
 on:
   pull_request:
-    types: [closed]
+    types: [opened, closed]
     branches:
       - master
 
@@ -41,5 +45,7 @@ jobs:
         github_token: '${{ secrets.GH_TOKEN }}'    
         ado_organization: 'privatepreview'
         ado_project: 'Agile'
-        ado_wit: 'Pull Request'         
+        ado_wit: 'Task'
+        ado_on_close_state: 'Done'
+        ado_on_active_state: 'Code Review'         
 ```
